@@ -1,0 +1,198 @@
+.about-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  width: 100%;
+}
+
+/* About Hero */
+.about-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 0 10px;
+  gap: 20px;
+}
+
+.section-badge {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.1);
+  padding: 6px 16px;
+  border-radius: 50px;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.1);
+}
+
+.about-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.about-desc {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: var(--text-muted);
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+/* Timeline Layout */
+.timeline-section {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding-left: 60px;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 20px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--primary-color) 0%, var(--secondary-color) 60%, transparent 100%);
+  border-radius: 2px;
+}
+
+.timeline-items {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.timeline-item {
+  position: relative;
+  width: 100%;
+}
+
+.timeline-badge {
+  position: absolute;
+  left: -40px;
+  top: 18px;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border: 4px solid var(--bg-primary);
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #fff;
+  height: 28px;
+  width: 64px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  font-family: var(--font-display);
+}
+
+.timeline-content {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  padding: 30px;
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.timeline-content:hover {
+  transform: translateX(4px);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06), 0 0 15px rgba(99, 102, 241, 0.04);
+}
+
+.milestone-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-main);
+}
+
+.milestone-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* CTA & Action cards */
+.cta-section {
+  max-width: 800px;
+  width: 100%;
+  margin: 20px auto 0;
+}
+
+.cta-card {
+  background: radial-gradient(circle at top left, rgba(99, 102, 241, 0.1) 0%, rgba(217, 70, 239, 0.03) 100%), var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: var(--glass-shadow);
+}
+
+.cta-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.cta-card p {
+  color: var(--text-muted);
+  max-width: 500px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.btn-icon-back {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.btn-primary:hover .btn-icon-back {
+  transform: translateX(-4px);
+}
+
+/* Responsive Styles */
+@media (max-width: 640px) {
+  .timeline-section {
+    padding-left: 45px;
+  }
+  .timeline-line {
+    left: 10px;
+  }
+  .timeline-badge {
+    left: -35px;
+    width: 56px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+  .cta-card {
+    padding: 30px 20px;
+  }
+}

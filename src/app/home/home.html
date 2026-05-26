@@ -1,0 +1,258 @@
+<div class="portfolio-editor-container fade-in-up">
+  
+  <!-- LEFT SIDE: Live Preview of Personal Portfolio -->
+  <div class="live-preview-section">
+    <div class="preview-header-badge" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '20', 'background-color': accentColor + '0d'}">
+      LIVE PORTFOLIO VIEW
+    </div>
+    
+    <!-- Hero Preview -->
+    <section class="hero-section">
+      <div class="feature-badge" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '25', 'background-color': accentColor + '0f'}">
+        Available for Work &amp; Collaboration
+      </div>
+      <h1 class="hero-title">
+        Crafting High-Performance <span class="gradient-text" [ngStyle]="{'background': 'linear-gradient(135deg, ' + accentColor + ' 0%, #db2777 100%)', '-webkit-background-clip': 'text', '-webkit-text-fill-color': 'transparent'}">Digital Experiences</span>
+      </h1>
+      <h2 class="hero-subtitle">
+        Hi, I'm <span class="highlight-name" [ngStyle]="{'border-bottom-color': accentColor}">{{ name }}</span> — {{ headline }}
+      </h2>
+      <p class="hero-desc">
+        {{ bio }}
+      </p>
+      <div class="hero-actions">
+        <a routerLink="/about" class="btn btn-primary" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}" (mouseover)="accentColor" (mouseout)="accentColor">
+          View Career Journey
+          <svg xmlns="http://www.w3.org/2000/svg" class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </a>
+        <a href="mailto:hello@developer.com" class="btn btn-secondary" [ngStyle]="{'border-color': accentColor, 'color': accentColor}">
+          Get in Touch
+        </a>
+      </div>
+    </section>
+
+    <!-- Skills/Competencies Preview -->
+    <section class="features-section">
+      <h2 class="section-title">Core Competencies</h2>
+      <div class="features-grid">
+        <!-- Card 1 -->
+        <div class="feature-card">
+          <div class="card-glow"></div>
+          <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h3 class="card-title">{{ skill1Title }}</h3>
+          <p class="card-desc">
+            {{ skill1Desc }}
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card">
+          <div class="card-glow"></div>
+          <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+            </svg>
+          </div>
+          <h3 class="card-title">{{ skill2Title }}</h3>
+          <p class="card-desc">
+            {{ skill2Desc }}
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card">
+          <div class="card-glow"></div>
+          <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="card-title">{{ skill3Title }}</h3>
+          <p class="card-desc">
+            {{ skill3Desc }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEW FEATURE: Projects Showcase Section with Category Filters -->
+    <section class="features-section">
+      <h2 class="section-title">Projects Showcase</h2>
+      
+      <!-- Filters bar using ngFor, ngClass, and ngStyle -->
+      <div class="filters-bar">
+        <button *ngFor="let cat of categories" 
+                (click)="setFilter(cat)"
+                [ngClass]="{'active-filter': activeFilter === cat}"
+                [ngStyle]="activeFilter === cat ? {'background-color': accentColor, 'color': '#ffffff', 'border-color': accentColor} : {'color': '#0f172a'}"
+                class="filter-btn">
+          {{ cat }}
+        </button>
+      </div>
+
+      <!-- Dynamic Projects List using ngFor and ngIf -->
+      <div class="projects-grid" *ngIf="getFilteredProjects().length > 0">
+        <div class="project-card" *ngFor="let proj of getFilteredProjects()" [ngStyle]="{'border-top': '4px solid ' + accentColor}">
+          <div class="project-category-badge" [ngStyle]="{'background-color': accentColor + '10', 'color': accentColor, 'border-color': accentColor + '20'}">
+            {{ proj.category }}
+          </div>
+          <h3 class="project-title">{{ proj.name }}</h3>
+          <p class="project-desc">{{ proj.desc }}</p>
+          <a [href]="proj.link" target="_blank" rel="noopener noreferrer" class="project-link" [ngStyle]="{'color': accentColor}">
+            View Source
+            <svg xmlns="http://www.w3.org/2000/svg" class="proj-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Empty state placeholder using ngIf -->
+      <div class="empty-projects-state" *ngIf="getFilteredProjects().length === 0">
+        <svg xmlns="http://www.w3.org/2000/svg" class="empty-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor + '60'}" (click)="scrollToAddProject()" title="Click to add a project">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p>No projects found in the "{{ activeFilter }}" category.</p>
+        <span class="empty-cta-text" (click)="scrollToAddProject()">Add a new project in this category using the customizer panel!</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- RIGHT SIDE: Live Manual Customizer Panel -->
+  <div class="editor-panel-section">
+    <div class="editor-header">
+      <svg xmlns="http://www.w3.org/2000/svg" class="editor-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor}">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+      </svg>
+      <h2>Manual Portfolio Customizer</h2>
+    </div>
+    <p class="editor-subheader">Type your details manually. Accent color selection and projects update immediately!</p>
+    
+    <div class="form-container">
+      
+      <!-- Accent Color Selection Group using ngFor, ngClass, and ngStyle -->
+      <div class="form-group-section">
+        <h3>Theme Color Accent</h3>
+        <p class="section-label-desc">Select an accent color to instantly color badges, highlights, and borders on your page.</p>
+        <div class="color-picker-container">
+          <div *ngFor="let color of availableColors" 
+               (click)="selectColor(color)" 
+               [ngStyle]="{'background-color': color}" 
+               [ngClass]="{'active-color-bubble': accentColor === color}"
+               class="color-bubble">
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Details Group -->
+      <div class="form-group-section">
+        <h3>Personal Details</h3>
+        <div class="form-group">
+          <label for="prof-name">Full Name</label>
+          <input type="text" id="prof-name" [(ngModel)]="name" (ngModelChange)="saveData()" placeholder="Enter your full name" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-headline">Professional Headline</label>
+          <input type="text" id="prof-headline" [(ngModel)]="headline" (ngModelChange)="saveData()" placeholder="Enter your job title" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-bio">Short Biography</label>
+          <textarea id="prof-bio" [(ngModel)]="bio" (ngModelChange)="saveData()" rows="4" placeholder="Describe your background and expertise" class="form-control text-area"></textarea>
+        </div>
+      </div>
+
+      <!-- NEW FEATURE: Manage Projects Section -->
+      <div class="form-group-section">
+        <h3>Add New Project</h3>
+        <div class="form-group">
+          <label for="proj-name-in">Project Name</label>
+          <input type="text" id="proj-name-in" [(ngModel)]="newProjName" placeholder="E.g., Crypto Wallet Dashboard" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="proj-cat-in">Category</label>
+          <select id="proj-cat-in" [(ngModel)]="newProjCategory" class="form-control">
+            <option value="Web">Web</option>
+            <option value="Design">Design</option>
+            <option value="Mobile">Mobile</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="proj-desc-in">Project Description</label>
+          <textarea id="proj-desc-in" [(ngModel)]="newProjDesc" rows="3" placeholder="Briefly summarize what this project accomplishes" class="form-control text-area"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="proj-link-in">Project Link</label>
+          <input type="text" id="proj-link-in" [(ngModel)]="newProjLink" placeholder="Github or live website URL" class="form-control" />
+        </div>
+        <button (click)="addProject()" class="btn btn-primary btn-full" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+          Add Project to Showcase
+        </button>
+      </div>
+
+      <!-- List and Delete existing projects using ngFor -->
+      <div class="form-group-section" *ngIf="projects.length > 0">
+        <h3>Manage Existing Projects</h3>
+        <p class="section-label-desc">Review and remove items from your live projects showcase:</p>
+        <div class="editor-projects-list">
+          <div *ngFor="let proj of projects" class="editor-proj-item">
+            <div class="editor-proj-info">
+              <span class="editor-proj-name">{{ proj.name }}</span>
+              <span class="editor-proj-category" [ngStyle]="{'color': accentColor}">{{ proj.category }}</span>
+            </div>
+            <button (click)="removeProject(proj.id)" class="editor-proj-delete-btn" title="Delete Project">
+              <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill Card 1 Details Group -->
+      <div class="form-group-section">
+        <h3>Skill Card 1</h3>
+        <div class="form-group">
+          <label for="s1-title">Skill Title</label>
+          <input type="text" id="s1-title" [(ngModel)]="skill1Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="s1-desc">Skill Description</label>
+          <textarea id="s1-desc" [(ngModel)]="skill1Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+        </div>
+      </div>
+
+      <!-- Skill Card 2 Details Group -->
+      <div class="form-group-section">
+        <h3>Skill Card 2</h3>
+        <div class="form-group">
+          <label for="s2-title">Skill Title</label>
+          <input type="text" id="s2-title" [(ngModel)]="skill2Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="s2-desc">Skill Description</label>
+          <textarea id="s2-desc" [(ngModel)]="skill2Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+        </div>
+      </div>
+
+      <!-- Skill Card 3 Details Group -->
+      <div class="form-group-section">
+        <h3>Skill Card 3</h3>
+        <div class="form-group">
+          <label for="s3-title">Skill Title</label>
+          <input type="text" id="s3-title" [(ngModel)]="skill3Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="s3-desc">Skill Description</label>
+          <textarea id="s3-desc" [(ngModel)]="skill3Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
