@@ -6,6 +6,86 @@
       LIVE PORTFOLIO VIEW
     </div>
     
+    <!-- NEW FEATURE: Professional Profile & Stats Header Card -->
+    <div class="profile-header-card">
+      <div class="profile-card-glow" [ngStyle]="{'background': 'radial-gradient(circle at top left, ' + accentColor + '0c 0%, transparent 60%)'}"></div>
+      
+      <div class="profile-card-content">
+        <!-- Avatar and Identity info -->
+        <div class="profile-avatar-block">
+          <div class="avatar-container" [ngStyle]="{'border-color': accentColor}">
+            <img *ngIf="avatarUrl" [src]="avatarUrl" alt="Profile Avatar" class="avatar-img" />
+            <div *ngIf="!avatarUrl" class="avatar-placeholder" [ngStyle]="{'background-color': accentColor + '15', 'color': accentColor}">
+              {{ name.substring(0,2).toUpperCase() }}
+            </div>
+          </div>
+          <div class="profile-identity">
+            <h2 class="profile-name">{{ name }}</h2>
+            <p class="profile-tagline" [ngStyle]="{'color': accentColor}">{{ headline }}</p>
+            <div class="profile-location">
+              <svg xmlns="http://www.w3.org/2000/svg" class="contact-card-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span>{{ location }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider line -->
+        <div class="card-divider"></div>
+
+        <!-- Contact details grid -->
+        <div class="profile-contacts-grid">
+          <div class="contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="contact-card-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor}">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L22 8m-9 11h3a2 2 0 002-2v-3a2 2 0 00-2-2h-3m-6 0H6a2 2 0 00-2 2v3a2 2 0 002 2h3" />
+            </svg>
+            <span class="contact-label">Email</span>
+            <a [href]="'mailto:' + email" class="contact-val">{{ email }}</a>
+          </div>
+
+          <div class="contact-item">
+            <svg xmlns="http://www.w3.org/2000/svg" class="contact-card-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor}">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            <span class="contact-label">Phone</span>
+            <a [href]="'tel:' + phone" class="contact-val">{{ phone }}</a>
+          </div>
+        </div>
+
+        <!-- Social profiles row -->
+        <div class="profile-socials-row">
+          <a *ngIf="githubUrl" [href]="githubUrl" target="_blank" rel="noopener noreferrer" class="social-circle-btn" title="GitHub" [ngStyle]="{'border-color': accentColor + '30'}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a *ngIf="linkedinUrl" [href]="linkedinUrl" target="_blank" rel="noopener noreferrer" class="social-circle-btn" title="LinkedIn" [ngStyle]="{'border-color': accentColor + '30'}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="social-icon" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Experience Stats Counter Grid -->
+        <div class="stats-counters-grid">
+          <div class="stat-counter-box" [ngStyle]="{'border-left-color': accentColor}">
+            <span class="stat-num" [ngStyle]="{'color': accentColor}">{{ experience }}+</span>
+            <span class="stat-lbl">Years Experience</span>
+          </div>
+          <div class="stat-counter-box" [ngStyle]="{'border-left-color': accentColor}">
+            <span class="stat-num" [ngStyle]="{'color': accentColor}">{{ projectsCount }}+</span>
+            <span class="stat-lbl">Projects Completed</span>
+          </div>
+          <div class="stat-counter-box" [ngStyle]="{'border-left-color': accentColor}">
+            <span class="stat-num" [ngStyle]="{'color': accentColor}">{{ clientsCount }}+</span>
+            <span class="stat-lbl">Happy Clients</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Hero Preview -->
     <section class="hero-section">
       <div class="feature-badge" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '25', 'background-color': accentColor + '0f'}">
@@ -27,61 +107,41 @@
             <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
           </svg>
         </a>
-        <a href="mailto:hello@developer.com" class="btn btn-secondary" [ngStyle]="{'border-color': accentColor, 'color': accentColor}">
+        <a [href]="'mailto:' + email" class="btn btn-secondary" [ngStyle]="{'border-color': accentColor, 'color': accentColor}">
           Get in Touch
         </a>
       </div>
     </section>
 
     <!-- Skills/Competencies Preview -->
-    <section class="features-section">
+    <section class="features-section" *ngIf="coreCompetencies.length > 0">
       <h2 class="section-title">Core Competencies</h2>
       <div class="features-grid">
-        <!-- Card 1 -->
-        <div class="feature-card">
+        <div class="feature-card" *ngFor="let comp of coreCompetencies; let idx = index">
           <div class="card-glow"></div>
           <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+            <!-- Dynamic SVG choice: index modulo 3 -->
+            <svg *ngIf="idx % 3 === 0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
             </svg>
-          </div>
-          <h3 class="card-title">{{ skill1Title }}</h3>
-          <p class="card-desc">
-            {{ skill1Desc }}
-          </p>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="feature-card">
-          <div class="card-glow"></div>
-          <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+            <svg *ngIf="idx % 3 === 1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
             </svg>
-          </div>
-          <h3 class="card-title">{{ skill2Title }}</h3>
-          <p class="card-desc">
-            {{ skill2Desc }}
-          </p>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="feature-card">
-          <div class="card-glow"></div>
-          <div class="card-icon-container" [ngStyle]="{'color': accentColor, 'border-color': accentColor + '30', 'background-color': accentColor + '0f'}">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
+            <svg *ngIf="idx % 3 === 2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="card-icon">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
           </div>
-          <h3 class="card-title">{{ skill3Title }}</h3>
+          <h3 class="card-title">{{ comp.title }}</h3>
           <p class="card-desc">
-            {{ skill3Desc }}
+            {{ comp.desc }}
           </p>
         </div>
       </div>
     </section>
 
-    <!-- NEW FEATURE: Projects Showcase Section with Category Filters -->
+
+
+    <!-- Projects Showcase Section with Category Filters -->
     <section class="features-section">
       <h2 class="section-title">Projects Showcase</h2>
       
@@ -122,6 +182,93 @@
         <span class="empty-cta-text" (click)="scrollToAddProject()">Add a new project in this category using the customizer panel!</span>
       </div>
     </section>
+
+    <!-- Dynamic Work Experience Logs -->
+    <section class="features-section" *ngIf="workExperiences.length > 0">
+      <h2 class="section-title">Work Experience</h2>
+      <div class="experience-list-container">
+        <div class="experience-list-item" *ngFor="let w of workExperiences">
+          <div class="experience-dot" [ngStyle]="{'background-color': accentColor, 'box-shadow': '0 0 0 4px ' + accentColor + '20'}"></div>
+          <div class="experience-card-body">
+            <div class="experience-card-header">
+              <h3 class="experience-company-title">{{ w.company }}</h3>
+              <span class="experience-duration-badge" [ngStyle]="{'background-color': accentColor + '12', 'color': accentColor, 'border-color': accentColor + '20'}">{{ w.duration }}</span>
+            </div>
+            <h4 class="experience-role-title">{{ w.role }}</h4>
+            <p class="experience-summary">{{ w.summary }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Education Details -->
+    <section class="features-section" *ngIf="educationList.length > 0">
+      <h2 class="section-title">Education History</h2>
+      <div class="experience-list-container">
+        <div class="experience-list-item" *ngFor="let edu of educationList">
+          <div class="experience-dot" [ngStyle]="{'background-color': accentColor, 'box-shadow': '0 0 0 4px ' + accentColor + '20'}"></div>
+          <div class="experience-card-body">
+            <div class="experience-card-header">
+              <h3 class="experience-company-title">{{ edu.school }}</h3>
+              <span class="experience-duration-badge" [ngStyle]="{'background-color': accentColor + '12', 'color': accentColor, 'border-color': accentColor + '20'}">{{ edu.duration }}</span>
+            </div>
+            <h4 class="experience-role-title">{{ edu.degree }} <span *ngIf="edu.cgpa" style="font-weight: 550; opacity: 0.85;">— CGPA: {{ edu.cgpa }}</span></h4>
+            <p class="experience-summary">{{ edu.summary }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Testimonials Slider -->
+    <section class="features-section" *ngIf="testimonials.length > 0">
+      <h2 class="section-title">Client Recommendations</h2>
+      <div class="testimonial-slider-card">
+        <div class="testimonial-quote-icon" [ngStyle]="{'color': accentColor + '08'}">“</div>
+        <p class="testimonial-quote-text">{{ testimonials[activeTestiIndex].text }}</p>
+        <div class="testimonial-author-block">
+          <h4 class="testimonial-author-name">{{ testimonials[activeTestiIndex].author }}</h4>
+          <span class="testimonial-author-desc">{{ testimonials[activeTestiIndex].designation }}</span>
+        </div>
+        <div class="testimonial-nav-arrows" *ngIf="testimonials.length > 1">
+          <button class="testi-arrow-btn" (click)="prevTestimonial()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="arrow-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <span class="testi-indicator">{{ activeTestiIndex + 1 }} / {{ testimonials.length }}</span>
+          <button class="testi-arrow-btn" (click)="nextTestimonial()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="arrow-icon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dynamic Contact Box Form -->
+    <section class="features-section">
+      <h2 class="section-title">Get in Touch</h2>
+      <div class="contact-box-card">
+        <p class="contact-box-subtitle">Have a question or want to work together? Drop a message below!</p>
+        <div class="form-grid-contact">
+          <div class="form-group-contact">
+            <label for="msg-name">Your Name</label>
+            <input type="text" id="msg-name" [(ngModel)]="msgName" placeholder="Enter your name" class="form-control" />
+          </div>
+          <div class="form-group-contact">
+            <label for="msg-email">Email Address</label>
+            <input type="email" id="msg-email" [(ngModel)]="msgEmail" placeholder="Enter your email" class="form-control" />
+          </div>
+          <div class="form-group-contact col-span-2-contact">
+            <label for="msg-body">Message</label>
+            <textarea id="msg-body" [(ngModel)]="msgBody" rows="3" placeholder="Type your message here..." class="form-control text-area"></textarea>
+          </div>
+          <button (click)="sendContactMessage()" class="btn btn-primary btn-full-contact" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+            Send Message
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- RIGHT SIDE: Live Manual Customizer Panel -->
@@ -152,7 +299,7 @@
 
       <!-- Profile Details Group -->
       <div class="form-group-section">
-        <h3>Personal Details</h3>
+        <h3>Personal Identity</h3>
         <div class="form-group">
           <label for="prof-name">Full Name</label>
           <input type="text" id="prof-name" [(ngModel)]="name" (ngModelChange)="saveData()" placeholder="Enter your full name" class="form-control" />
@@ -167,7 +314,95 @@
         </div>
       </div>
 
-      <!-- NEW FEATURE: Manage Projects Section -->
+      <!-- NEW PROFILE SECTION INPUTS -->
+      <div class="form-group-section">
+        <h3>Profile &amp; Contact Details</h3>
+        <p class="section-label-desc">Fill out key contact fields and dynamic statistics counters:</p>
+        <div class="form-group">
+          <label for="prof-avatar">Avatar Image URL</label>
+          <input type="text" id="prof-avatar" [(ngModel)]="avatarUrl" (ngModelChange)="saveData()" placeholder="HTTPS URL to avatar image" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-location">Location</label>
+          <input type="text" id="prof-location" [(ngModel)]="location" (ngModelChange)="saveData()" placeholder="City, State/Country" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-email">Email Address</label>
+          <input type="email" id="prof-email" [(ngModel)]="email" (ngModelChange)="saveData()" placeholder="Email address" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-phone">Phone Number</label>
+          <input type="text" id="prof-phone" [(ngModel)]="phone" (ngModelChange)="saveData()" placeholder="Phone number" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-github">GitHub Link</label>
+          <input type="text" id="prof-github" [(ngModel)]="githubUrl" (ngModelChange)="saveData()" placeholder="GitHub profile link" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-linkedin">LinkedIn Link</label>
+          <input type="text" id="prof-linkedin" [(ngModel)]="linkedinUrl" (ngModelChange)="saveData()" placeholder="LinkedIn profile link" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-exp">Years of Experience</label>
+          <input type="number" id="prof-exp" [(ngModel)]="experience" (ngModelChange)="saveData()" placeholder="Years experience" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-projects-c">Projects Completed</label>
+          <input type="number" id="prof-projects-c" [(ngModel)]="projectsCount" (ngModelChange)="saveData()" placeholder="Projects completed" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="prof-clients-c">Happy Clients</label>
+          <input type="number" id="prof-clients-c" [(ngModel)]="clientsCount" (ngModelChange)="saveData()" placeholder="Happy clients" class="form-control" />
+        </div>
+      </div>
+
+      <!-- Core Competencies Feature Cards Customizer -->
+      <div class="form-group-section">
+        <h3>Manage Core Competencies</h3>
+        <p class="section-label-desc">Customize or remove existing competency cards, or add new ones to your portfolio's main display:</p>
+        
+        <!-- Add New Competency Card Form -->
+        <div style="border-bottom: 1px dashed var(--glass-border); padding-bottom: 16px; margin-bottom: 16px;">
+          <h4 [ngStyle]="{'color': accentColor}" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 10px;">Add New Competency</h4>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label for="new-comp-title">Competency Title</label>
+            <input type="text" id="new-comp-title" [(ngModel)]="newCompTitle" placeholder="E.g., Scalable Architecture" class="form-control" />
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="new-comp-desc">Description</label>
+            <textarea id="new-comp-desc" [(ngModel)]="newCompDesc" rows="3" placeholder="Briefly describe this core skill..." class="form-control text-area"></textarea>
+          </div>
+          <button (click)="addCompetencyCard()" class="btn btn-primary btn-full" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+            Add Competency Card
+          </button>
+        </div>
+
+        <!-- List/Edit Existing Competencies -->
+        <div *ngIf="coreCompetencies.length > 0">
+          <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; color: #0f172a;">Existing Competencies ({{ coreCompetencies.length }})</h4>
+          <div *ngFor="let comp of coreCompetencies; let i = index" class="editor-proj-item" style="flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: rgba(255,255,255,0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span [ngStyle]="{'color': accentColor}" style="font-size: 0.8rem; font-weight: 700;">Competency Card #{{ i + 1 }}</span>
+              <button (click)="removeCompetencyCard(i)" class="editor-proj-delete-btn" title="Delete Competency Card" style="margin: 0; padding: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px; color: #ef4444;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+            <div class="form-group" style="margin-bottom: 4px;">
+              <input type="text" [(ngModel)]="comp.title" (ngModelChange)="saveData()" placeholder="Title" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;" />
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <textarea [(ngModel)]="comp.desc" (ngModelChange)="saveData()" rows="2" placeholder="Description" class="form-control text-area" style="font-size: 0.8rem; padding: 6px 10px;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="coreCompetencies.length === 0" style="text-align: center; padding: 15px; color: #64748b; font-size: 0.85rem; border: 1px dashed var(--glass-border); border-radius: 8px;">
+          No competencies added yet. Add one above!
+        </div>
+      </div>
+
+      <!-- Manage Projects Section -->
       <div class="form-group-section">
         <h3>Add New Project</h3>
         <div class="form-group">
@@ -214,42 +449,182 @@
         </div>
       </div>
 
-      <!-- Skill Card 1 Details Group -->
+
+
+      <!-- Work Experience Logs Customizer -->
       <div class="form-group-section">
-        <h3>Skill Card 1</h3>
+        <h3>Manage Work Experience</h3>
+        <p class="section-label-desc">Customizer your employment history and dynamic resume logs:</p>
         <div class="form-group">
-          <label for="s1-title">Skill Title</label>
-          <input type="text" id="s1-title" [(ngModel)]="skill1Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+          <label for="work-company-in">Company Name</label>
+          <input type="text" id="work-company-in" [(ngModel)]="newWorkCompany" placeholder="E.g. TechCorp Solutions" class="form-control" />
         </div>
         <div class="form-group">
-          <label for="s1-desc">Skill Description</label>
-          <textarea id="s1-desc" [(ngModel)]="skill1Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+          <label for="work-role-in">Job Title / Role</label>
+          <input type="text" id="work-role-in" [(ngModel)]="newWorkRole" placeholder="E.g. UI Developer" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="work-duration-in">Duration Period</label>
+          <input type="text" id="work-duration-in" [(ngModel)]="newWorkDuration" placeholder="E.g. 2024 - Present" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="work-summary-in">Summary description</label>
+          <textarea id="work-summary-in" [(ngModel)]="newWorkSummary" rows="2" placeholder="Summary of role..." class="form-control text-area"></textarea>
+        </div>
+        <button (click)="addWorkItem()" class="btn btn-primary btn-full" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+          Add Work Item
+        </button>
+
+        <div class="editor-projects-list" *ngIf="workExperiences.length > 0" style="margin-top: 10px;">
+          <div *ngFor="let w of workExperiences; let i = index" class="editor-proj-item">
+            <div class="editor-proj-info">
+              <span class="editor-proj-name">{{ w.company }}</span>
+              <span class="editor-proj-category" [ngStyle]="{'color': accentColor}">{{ w.role }}</span>
+            </div>
+            <button (click)="removeWorkItem(i)" class="editor-proj-delete-btn" title="Delete Entry">
+              <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Skill Card 2 Details Group -->
+      <!-- Education History Logs Customizer -->
       <div class="form-group-section">
-        <h3>Skill Card 2</h3>
-        <div class="form-group">
-          <label for="s2-title">Skill Title</label>
-          <input type="text" id="s2-title" [(ngModel)]="skill2Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+        <h3>Manage Education</h3>
+        <p class="section-label-desc">Customize or remove academic credentials, or add new ones to your portfolio's main display:</p>
+        
+        <!-- Add New Education Item Form -->
+        <div style="border-bottom: 1px dashed var(--glass-border); padding-bottom: 16px; margin-bottom: 16px;">
+          <h4 [ngStyle]="{'color': accentColor}" style="font-size: 0.85rem; font-weight: 700; margin-bottom: 10px;">Add New Education</h4>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label for="edu-school-in">School / University</label>
+            <input type="text" id="edu-school-in" [(ngModel)]="newEduSchool" placeholder="E.g. Stanford University" class="form-control" />
+          </div>
+          <div class="form-group" style="margin-bottom: 8px;">
+            <label for="edu-degree-in">Degree / Field of Study</label>
+            <input type="text" id="edu-degree-in" [(ngModel)]="newEduDegree" placeholder="E.g. B.S. in Computer Science" class="form-control" />
+          </div>
+          <div class="form-group" style="margin-bottom: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div>
+              <label for="edu-duration-in">Duration Period</label>
+              <input type="text" id="edu-duration-in" [(ngModel)]="newEduDuration" placeholder="E.g. 2018 - 2022" class="form-control" />
+            </div>
+            <div>
+              <label for="edu-cgpa-in">CGPA / Grade</label>
+              <input type="text" id="edu-cgpa-in" [(ngModel)]="newEduCgpa" placeholder="E.g. 3.91/4.0" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label for="edu-summary-in">Summary Description</label>
+            <textarea id="edu-summary-in" [(ngModel)]="newEduSummary" rows="2" placeholder="Summary of achievements..." class="form-control text-area"></textarea>
+          </div>
+          <button (click)="addEduItem()" class="btn btn-primary btn-full" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+            Add Education Item
+          </button>
         </div>
-        <div class="form-group">
-          <label for="s2-desc">Skill Description</label>
-          <textarea id="s2-desc" [(ngModel)]="skill2Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+
+        <!-- List/Edit Existing Education in Identical Order -->
+        <div *ngIf="educationList.length > 0">
+          <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; color: #0f172a;">Existing Credentials ({{ educationList.length }})</h4>
+          <div *ngFor="let edu of educationList; let i = index" class="editor-proj-item" style="flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--glass-border); border-radius: 8px; background: rgba(255,255,255,0.4);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span [ngStyle]="{'color': accentColor}" style="font-size: 0.8rem; font-weight: 700;">Education Card #{{ i + 1 }}</span>
+              <button (click)="removeEduItem(i)" class="editor-proj-delete-btn" title="Delete Education Item" style="margin: 0; padding: 4px;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 16px; height: 16px; color: #ef4444;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 4px;">
+              <label style="font-size: 0.7rem; color: #64748b; margin: 0 0 2px 0;">School Name</label>
+              <input type="text" [(ngModel)]="edu.school" (ngModelChange)="saveData()" placeholder="School Name" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;" />
+            </div>
+            <div class="form-group" style="margin-bottom: 4px;">
+              <label style="font-size: 0.7rem; color: #64748b; margin: 0 0 2px 0;">Degree / Field of Study</label>
+              <input type="text" [(ngModel)]="edu.degree" (ngModelChange)="saveData()" placeholder="Degree" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;" />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="form-group" style="margin-bottom: 4px;">
+                <label style="font-size: 0.7rem; color: #64748b; margin: 0 0 2px 0;">Duration Period</label>
+                <input type="text" [(ngModel)]="edu.duration" (ngModelChange)="saveData()" placeholder="Duration" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;" />
+              </div>
+              <div class="form-group" style="margin-bottom: 4px;">
+                <label style="font-size: 0.7rem; color: #64748b; margin: 0 0 2px 0;">CGPA / Grade</label>
+                <input type="text" [(ngModel)]="edu.cgpa" (ngModelChange)="saveData()" placeholder="CGPA" class="form-control" style="font-size: 0.85rem; padding: 6px 10px;" />
+              </div>
+            </div>
+            <div class="form-group" style="margin: 0;">
+              <label style="font-size: 0.7rem; color: #64748b; margin: 0 0 2px 0;">Summary description</label>
+              <textarea [(ngModel)]="edu.summary" (ngModelChange)="saveData()" rows="2" placeholder="Summary" class="form-control text-area" style="font-size: 0.8rem; padding: 6px 10px;"></textarea>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="educationList.length === 0" style="text-align: center; padding: 15px; color: #64748b; font-size: 0.85rem; border: 1px dashed var(--glass-border); border-radius: 8px;">
+          No education history added yet. Add one above!
         </div>
       </div>
 
-      <!-- Skill Card 3 Details Group -->
+      <!-- Testimonials / Client Recommendations Customizer -->
       <div class="form-group-section">
-        <h3>Skill Card 3</h3>
+        <h3>Manage Recommendations</h3>
+        <p class="section-label-desc">Configure peer feedback sliders shown on your dashboard:</p>
         <div class="form-group">
-          <label for="s3-title">Skill Title</label>
-          <input type="text" id="s3-title" [(ngModel)]="skill3Title" (ngModelChange)="saveData()" placeholder="Skill title" class="form-control" />
+          <label for="testi-author-in">Author Name</label>
+          <input type="text" id="testi-author-in" [(ngModel)]="newTestiAuthor" placeholder="E.g. Emily Stone" class="form-control" />
         </div>
         <div class="form-group">
-          <label for="s3-desc">Skill Description</label>
-          <textarea id="s3-desc" [(ngModel)]="skill3Desc" (ngModelChange)="saveData()" rows="3" placeholder="Skill description" class="form-control text-area"></textarea>
+          <label for="testi-desc-in">Designation / Role</label>
+          <input type="text" id="testi-desc-in" [(ngModel)]="newTestiDesignation" placeholder="E.g. Product Manager at TechCorp" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="testi-text-in">Recommendation Text</label>
+          <textarea id="testi-text-in" [(ngModel)]="newTestiText" rows="3" placeholder="Recommendation comment..." class="form-control text-area"></textarea>
+        </div>
+        <button (click)="addTestiItem()" class="btn btn-primary btn-full" [ngStyle]="{'background-color': accentColor, 'border-color': accentColor}">
+          Add Recommendation
+        </button>
+
+        <div class="editor-projects-list" *ngIf="testimonials.length > 0" style="margin-top: 10px;">
+          <div *ngFor="let t of testimonials; let i = index" class="editor-proj-item">
+            <div class="editor-proj-info">
+              <span class="editor-proj-name">{{ t.author }}</span>
+              <span class="editor-proj-category" [ngStyle]="{'color': accentColor}">{{ t.designation }}</span>
+            </div>
+            <button (click)="removeTestiItem(i)" class="editor-proj-delete-btn" title="Delete testimonial">
+              <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inbox Collapsible Received Message Customizer -->
+      <div class="form-group-section">
+        <h3>Inbox Log ({{ messages.length }} Received Messages)</h3>
+        <p class="section-label-desc">Messages submitted by visitors through your contact form are stored here instantly:</p>
+        
+        <div class="editor-projects-list" *ngIf="messages.length > 0">
+          <div *ngFor="let m of messages; let i = index" class="editor-proj-item" style="flex-direction: column; align-items: stretch; gap: 6px; padding: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--glass-border); padding-bottom: 4px;">
+              <span class="editor-proj-name" style="font-weight: 700;">{{ m.name }}</span>
+              <button (click)="removeMessage(i)" class="editor-proj-delete-btn" title="Delete Message">
+                <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 550;">Email: {{ m.email }}</span>
+            <span style="font-size: 0.7rem; color: #94a3b8;">Sent: {{ m.date }}</span>
+            <p style="font-size: 0.8rem; color: var(--text-main); margin-top: 4px; line-height: 1.45; background-color: var(--bg-secondary); padding: 8px; border-radius: 4px; border: 1px solid var(--glass-border);">{{ m.body }}</p>
+          </div>
+        </div>
+        
+        <div class="empty-state" *ngIf="messages.length === 0" style="padding: 20px;">
+          <p style="font-size: 0.8rem; color: var(--text-muted);">Inbox is empty. Submit a contact message in the left preview to test it out!</p>
         </div>
       </div>
     </div>

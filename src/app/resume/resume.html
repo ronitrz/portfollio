@@ -1,0 +1,487 @@
+<div class="resume-workspace fade-in-up">
+  
+  <!-- Editor Customizer & Preview workstation -->
+  <div class="workstation">
+    
+    <!-- Left Column: Collapsible Form Controls (no-print) -->
+    <section class="form-panel no-print" [ngClass]="{'active-mobile': activeTab === 'edit'}">
+      <div class="panel-header">
+        <h2 class="panel-main-title">Interactive Resume Engine</h2>
+        <p class="panel-main-subtitle">
+          Your portfolio data has been automatically loaded below to pre-build your resume! Expand the sections to customize, then save to update.
+        </p>
+        
+        <!-- Sync & Reset controls -->
+        <div class="header-actions-row">
+          <button class="btn btn-secondary sync-btn" (click)="loadFromPortfolio(true)" title="Pull latest personal details, skills, and projects from the portfolio customizer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="btn-ctrl-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.248 8H18.29" />
+            </svg>
+            Sync Portfolio Data
+          </button>
+          
+          <button class="btn btn-secondary" (click)="resetForm()">
+            <svg xmlns="http://www.w3.org/2000/svg" class="btn-ctrl-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Clear Fields
+          </button>
+        </div>
+      </div>
+
+      <div class="accordion-container">
+        
+        <!-- SECTION 1: Personal Details -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.personal}">
+          <button class="accordion-header" (click)="toggleSection('personal')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.personal ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.personal ? '#ffffff' : '#64748b'}">1</span>
+              Personal Details
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="form-grid">
+              <div class="form-group col-span-2">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" [(ngModel)]="formData.personalInfo.fullName" placeholder="e.g. Alex Morgan" class="form-control" />
+              </div>
+              <div class="form-group col-span-2">
+                <label for="title">Professional Title</label>
+                <input type="text" id="title" [(ngModel)]="formData.personalInfo.title" placeholder="e.g. Senior Software Engineer" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" [(ngModel)]="formData.personalInfo.email" placeholder="e.g. alex@example.com" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" [(ngModel)]="formData.personalInfo.phone" placeholder="e.g. +1 (555) 000-0000" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" id="location" [(ngModel)]="formData.personalInfo.address" placeholder="e.g. San Francisco, CA" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="website">Website Portfolio</label>
+                <input type="text" id="website" [(ngModel)]="formData.personalInfo.website" placeholder="e.g. alexmorgan.dev" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="github">GitHub profile</label>
+                <input type="text" id="github" [(ngModel)]="formData.personalInfo.github" placeholder="e.g. github.com/username" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label for="linkedin">LinkedIn profile</label>
+                <input type="text" id="linkedin" [(ngModel)]="formData.personalInfo.linkedin" placeholder="e.g. linkedin.com/in/username" class="form-control" />
+              </div>
+              <div class="form-group col-span-2">
+                <label for="summary">Professional Summary</label>
+                <textarea id="summary" rows="4" [(ngModel)]="formData.personalInfo.summary" placeholder="Write a short summary of your professional background..." class="form-control text-area"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Work Experience -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.experience}">
+          <button class="accordion-header" (click)="toggleSection('experience')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.experience ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.experience ? '#ffffff' : '#64748b'}">2</span>
+              Work Experience
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="dynamic-item" *ngFor="let exp of formData.experience; let i = index">
+              <div class="dynamic-item-header">
+                <h4>Experience #{{ i + 1 }}</h4>
+                <button class="editor-proj-delete-btn" (click)="removeExperience(i)" title="Remove item">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Company / Organization</label>
+                  <input type="text" [(ngModel)]="exp.company" placeholder="e.g. Google" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Job Title / Position</label>
+                  <input type="text" [(ngModel)]="exp.position" placeholder="e.g. Software Engineer" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Location</label>
+                  <input type="text" [(ngModel)]="exp.location" placeholder="e.g. Mountain View, CA" class="form-control" />
+                </div>
+                <div class="form-group checkbox-group">
+                  <label class="checkbox-container">
+                    <input type="checkbox" [(ngModel)]="exp.current" />
+                    <span class="checkmark" [ngStyle]="{'background-color': exp.current ? 'var(--accent-color)' : '#ffffff', 'border-color': exp.current ? 'var(--accent-color)' : '#cbd5e1'}"></span>
+                    I currently work here
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="month" [(ngModel)]="exp.startDate" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="month" [(ngModel)]="exp.endDate" [disabled]="exp.current" class="form-control" />
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Description & Accomplishments (Separate with new lines)</label>
+                  <textarea rows="4" [(ngModel)]="exp.description" placeholder="Write description points..." class="form-control text-area"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="empty-state" *ngIf="formData.experience.length === 0">
+              <p>No work experiences added yet. Click below to add one.</p>
+            </div>
+            <button class="btn btn-add" (click)="addExperience()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Experience Item
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Education -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.education}">
+          <button class="accordion-header" (click)="toggleSection('education')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.education ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.education ? '#ffffff' : '#64748b'}">3</span>
+              Education History
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="dynamic-item" *ngFor="let edu of formData.education; let i = index">
+              <div class="dynamic-item-header">
+                <h4>Education #{{ i + 1 }}</h4>
+                <button class="editor-proj-delete-btn" (click)="removeEducation(i)" title="Remove item">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+              <div class="form-grid">
+                <div class="form-group col-span-2">
+                  <label>School / University</label>
+                  <input type="text" [(ngModel)]="edu.school" placeholder="e.g. Stanford University" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Degree / Qualification</label>
+                  <input type="text" [(ngModel)]="edu.degree" placeholder="e.g. B.S. in Computer Science" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Location</label>
+                  <input type="text" [(ngModel)]="edu.location" placeholder="e.g. Stanford, CA" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Start Date</label>
+                  <input type="month" [(ngModel)]="edu.startDate" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>End Date</label>
+                  <input type="month" [(ngModel)]="edu.endDate" class="form-control" />
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Accomplishments / Focus / GPA</label>
+                  <textarea rows="2" [(ngModel)]="edu.description" placeholder="e.g. GPA 3.9/4.0. Completed minor in HCI." class="form-control text-area"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="empty-state" *ngIf="formData.education.length === 0">
+              <p>No education history added yet. Click below to add one.</p>
+            </div>
+            <button class="btn btn-add" (click)="addEducation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Education Item
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Projects -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.projects}">
+          <button class="accordion-header" (click)="toggleSection('projects')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.projects ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.projects ? '#ffffff' : '#64748b'}">4</span>
+              Featured Projects
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="dynamic-item" *ngFor="let proj of formData.projects; let i = index">
+              <div class="dynamic-item-header">
+                <h4>Project #{{ i + 1 }}</h4>
+                <button class="editor-proj-delete-btn" (click)="removeProject(i)" title="Remove item">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="trash-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label>Project Name</label>
+                  <input type="text" [(ngModel)]="proj.name" placeholder="e.g. Aura Resume Builder" class="form-control" />
+                </div>
+                <div class="form-group">
+                  <label>Project URL (optional)</label>
+                  <input type="text" [(ngModel)]="proj.link" placeholder="e.g. github.com/username/project" class="form-control" />
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Technologies Used</label>
+                  <input type="text" [(ngModel)]="proj.technologies" placeholder="e.g. Angular, Node.js, WebSockets" class="form-control" />
+                </div>
+                <div class="form-group col-span-2">
+                  <label>Short Project Description</label>
+                  <textarea rows="3" [(ngModel)]="proj.description" placeholder="Describe the project goal, your role, and achievements..." class="form-control text-area"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="empty-state" *ngIf="formData.projects.length === 0">
+              <p>No projects added yet. Click below to add one.</p>
+            </div>
+            <button class="btn btn-add" (click)="addProject()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Project Item
+            </button>
+          </div>
+        </div>
+
+        <!-- SECTION 5: Skills -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.skills}">
+          <button class="accordion-header" (click)="toggleSection('skills')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.skills ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.skills ? '#ffffff' : '#64748b'}">5</span>
+              Skills Portfolio
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="form-group col-span-2">
+              <label>Add Skill (Press Enter or click Add)</label>
+              <div class="tags-input-wrapper">
+                <input type="text" [(ngModel)]="newSkill" placeholder="e.g. TypeScript" (keyup.enter)="addSkill()" class="form-control" />
+                <button class="btn" (click)="addSkill()">Add</button>
+              </div>
+            </div>
+            <div class="tags-container">
+              <span class="tag-badge" *ngFor="let skill of formData.skills; let i = index">
+                {{ skill }}
+                <button class="tag-remove" (click)="removeSkill(i)">&times;</button>
+              </span>
+              <div class="empty-state inline" *ngIf="formData.skills.length === 0">
+                <p>No skills added yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 6: Certifications -->
+        <div class="accordion-item" [ngClass]="{'expanded': expandedSections.certifications}">
+          <button class="accordion-header" (click)="toggleSection('certifications')">
+            <span class="header-title">
+              <span class="step-num" [ngStyle]="{'background-color': expandedSections.certifications ? 'var(--accent-color)' : '#f1f5f9', 'color': expandedSections.certifications ? '#ffffff' : '#64748b'}">6</span>
+              Certifications & Achievements
+            </span>
+            <span class="header-chevron">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+          </button>
+          <div class="accordion-body">
+            <div class="form-group col-span-2">
+              <label>Add Certification (Press Enter or click Add)</label>
+              <div class="tags-input-wrapper">
+                <input type="text" [(ngModel)]="newCertification" placeholder="e.g. AWS Solutions Architect" (keyup.enter)="addCertification()" class="form-control" />
+                <button class="btn" (click)="addCertification()">Add</button>
+              </div>
+            </div>
+            <div class="tags-container">
+              <span class="tag-badge certification" *ngFor="let cert of formData.certifications; let i = index">
+                {{ cert }}
+                <button class="tag-remove" (click)="removeCertification(i)">&times;</button>
+              </span>
+              <div class="empty-state inline" *ngIf="formData.certifications.length === 0">
+                <p>No certifications added yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Panel Save Button (no-print) -->
+      <div class="form-action-panel">
+        <button class="btn btn-primary" (click)="saveChanges()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-ctrl-icon"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          Save &amp; Update Preview Sheet
+        </button>
+        
+        <button class="btn btn-secondary" (click)="triggerPrint()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="btn-ctrl-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-5a2 2 0 00-2-2H5a2 2 0 00-2 2v5a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+          </svg>
+          Print / Export PDF Resume
+        </button>
+      </div>
+    </section>
+
+    <!-- Right Column: Live Resume Preview (Responsive Print Sheet) -->
+    <section class="preview-panel" [ngClass]="{'active-mobile': activeTab === 'preview'}">
+      
+      <!-- Print Preview Sheet (emulating A4 physical printout) -->
+      <div class="resume-sheet print-sheet" id="resumePrintArea" [ngStyle]="{'border-top': '6px solid var(--accent-color)'}">
+        
+        <!-- Header Profile details -->
+        <header class="resume-header">
+          <div class="header-identity">
+            <h1 class="resume-name">{{ previewData.personalInfo.fullName || 'Your Full Name' }}</h1>
+            <p class="resume-title" [ngStyle]="{'color': 'var(--accent-color)'}">{{ previewData.personalInfo.title || 'Your Professional Title' }}</p>
+          </div>
+          
+          <div class="header-contact">
+            <!-- Email -->
+            <span class="contact-item" *ngIf="previewData.personalInfo.email">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="contact-icon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L22 8m-9 11h3a2 2 0 002-2v-3a2 2 0 00-2-2h-3m-6 0H6a2 2 0 00-2 2v3a2 2 0 002 2h3" /></svg>
+              {{ previewData.personalInfo.email }}
+            </span>
+            <!-- Phone -->
+            <span class="contact-item" *ngIf="previewData.personalInfo.phone">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="contact-icon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+              {{ previewData.personalInfo.phone }}
+            </span>
+            <!-- Address -->
+            <span class="contact-item" *ngIf="previewData.personalInfo.address">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="contact-icon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              {{ previewData.personalInfo.address }}
+            </span>
+            <!-- Portfolio / Website -->
+            <a [href]="'https://' + previewData.personalInfo.website" target="_blank" class="contact-item link" *ngIf="previewData.personalInfo.website">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="contact-icon"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
+              {{ previewData.personalInfo.website }}
+            </a>
+            <!-- GitHub -->
+            <a [href]="'https://' + previewData.personalInfo.github" target="_blank" class="contact-item link" *ngIf="previewData.personalInfo.github">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-icon"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              {{ previewData.personalInfo.github }}
+            </a>
+            <!-- LinkedIn -->
+            <a [href]="'https://' + previewData.personalInfo.linkedin" target="_blank" class="contact-item link" *ngIf="previewData.personalInfo.linkedin">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-icon"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              {{ previewData.personalInfo.linkedin }}
+            </a>
+          </div>
+        </header>
+
+        <hr class="resume-divider" />
+
+        <!-- Summary Section -->
+        <section class="resume-section" *ngIf="previewData.personalInfo.summary">
+          <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Professional Summary</h3>
+          <div class="section-content">
+            <p class="summary-text">{{ previewData.personalInfo.summary }}</p>
+          </div>
+        </section>
+
+        <!-- Work Experience Section -->
+        <section class="resume-section" *ngIf="previewData.experience.length > 0">
+          <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Work Experience</h3>
+          <div class="section-content experiences-list">
+            <div class="resume-item" *ngFor="let exp of previewData.experience">
+              <div class="item-header">
+                <div class="item-main">
+                  <strong class="item-bold">{{ exp.position || 'Position / Job Title' }}</strong>
+                  <span class="item-separator">|</span>
+                  <span class="item-regular">{{ exp.company || 'Company Name' }}</span>
+                </div>
+                <div class="item-meta">
+                  <span class="item-date">{{ formatDate(exp.startDate) || 'Start Date' }} – {{ exp.current ? 'Present' : (formatDate(exp.endDate) || 'End Date') }}</span>
+                  <span class="item-location" *ngIf="exp.location">, {{ exp.location }}</span>
+                </div>
+              </div>
+              <ul class="item-bullets" *ngIf="exp.description">
+                <li *ngFor="let bullet of getParagraphs(exp.description)">{{ bullet }}</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="resume-section" *ngIf="previewData.education.length > 0">
+          <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Education</h3>
+          <div class="section-content education-list">
+            <div class="resume-item" *ngFor="let edu of previewData.education">
+              <div class="item-header">
+                <div class="item-main">
+                  <strong class="item-bold">{{ edu.degree || 'Degree' }}</strong>
+                  <span class="item-separator">|</span>
+                  <span class="item-regular">{{ edu.school || 'School / University' }}</span>
+                </div>
+                <div class="item-meta">
+                  <span class="item-date">{{ formatDate(edu.startDate) || 'Start' }} – {{ formatDate(edu.endDate) || 'End' }}</span>
+                  <span class="item-location" *ngIf="edu.location">, {{ edu.location }}</span>
+                </div>
+              </div>
+              <p class="item-sub-desc" *ngIf="edu.description">{{ edu.description }}</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="resume-section" *ngIf="previewData.projects.length > 0">
+          <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Featured Projects</h3>
+          <div class="section-content projects-list">
+            <div class="resume-item" *ngFor="let proj of previewData.projects">
+              <div class="item-header">
+                <div class="item-main">
+                  <strong class="item-bold">{{ proj.name || 'Project Name' }}</strong>
+                  <span class="item-separator" *ngIf="proj.technologies">|</span>
+                  <span class="item-tech" *ngIf="proj.technologies" [ngStyle]="{'color': 'var(--accent-color)'}">{{ proj.technologies }}</span>
+                </div>
+                <div class="item-meta" *ngIf="proj.link">
+                  <a [href]="'https://' + proj.link" target="_blank" class="item-link">{{ proj.link }}</a>
+                </div>
+              </div>
+              <p class="item-sub-desc" *ngIf="proj.description">{{ proj.description }}</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Dynamic Double Column: Skills & Certifications -->
+        <div class="resume-multi-col" *ngIf="previewData.skills.length > 0 || previewData.certifications.length > 0">
+          <!-- Skills -->
+          <section class="resume-section flex-1" *ngIf="previewData.skills.length > 0">
+            <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Skills &amp; Technologies</h3>
+            <div class="section-content">
+              <p class="skills-preview-list">
+                {{ previewData.skills.join(', ') }}
+              </p>
+            </div>
+          </section>
+          
+          <!-- Certifications -->
+          <section class="resume-section flex-1" *ngIf="previewData.certifications.length > 0">
+            <h3 class="section-title" [ngStyle]="{'border-bottom-color': 'var(--accent-light)'}">Certifications</h3>
+            <div class="section-content">
+              <ul class="certs-preview-list">
+                <li *ngFor="let cert of previewData.certifications">{{ cert }}</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
