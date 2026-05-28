@@ -273,11 +273,22 @@
 
   <!-- RIGHT SIDE: Live Manual Customizer Panel -->
   <div class="editor-panel-section">
-    <div class="editor-header">
-      <svg xmlns="http://www.w3.org/2000/svg" class="editor-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor}">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-      </svg>
-      <h2>Manual Portfolio Customizer</h2>
+    <div class="editor-header" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg xmlns="http://www.w3.org/2000/svg" class="editor-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" [ngStyle]="{'color': accentColor}">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+        <h2>Manual Portfolio Customizer</h2>
+      </div>
+      <!-- Database Connection Status Badge -->
+      <div *ngIf="isBackendActive" class="db-status-badge" style="display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background-color: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); font-size: 0.72rem; font-weight: 700; color: #10b981;">
+        <span class="pulse-dot" [ngStyle]="{'background-color': '#10b981'}" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 6px #10b981;"></span>
+        Active: MySQL DB
+      </div>
+      <div *ngIf="!isBackendActive" class="db-status-badge" style="display: flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); font-size: 0.72rem; font-weight: 700; color: #f59e0b;">
+        <span class="pulse-dot" [ngStyle]="{'background-color': '#f59e0b'}" style="width: 8px; height: 8px; border-radius: 50%; display: inline-block; box-shadow: 0 0 6px #f59e0b;"></span>
+        Offline Fallback
+      </div>
     </div>
     <p class="editor-subheader">Type your details manually. Accent color selection and projects update immediately!</p>
     

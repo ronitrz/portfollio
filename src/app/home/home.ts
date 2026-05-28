@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -102,65 +103,122 @@ export class Home {
   activeFilter: string = 'All';
   categories: string[] = ['All', 'Web', 'Design', 'Mobile'];
 
-  constructor() {
+  // Backend active status & API endpoint URL
+  isBackendActive: boolean = false;
+  private apiUrl: string = 'http://localhost:5099/api';
+
+  constructor(private http: HttpClient) {
     this.loadData();
   }
 
   // Load portfolio details from localStorage on boot
   loadData() {
+    // 1. Initial fast local render
     const saved = localStorage.getItem('portfolio_data');
     if (saved) {
-      try {
-        const data = JSON.parse(saved);
-        if (data.name) this.name = data.name;
-        if (data.headline) this.headline = data.headline;
-        if (data.bio) this.bio = data.bio;
-        if (data.skill1Title) this.skill1Title = data.skill1Title;
-        if (data.skill1Desc) this.skill1Desc = data.skill1Desc;
-        if (data.skill2Title) this.skill2Title = data.skill2Title;
-        if (data.skill2Desc) this.skill2Desc = data.skill2Desc;
-        if (data.skill3Title) this.skill3Title = data.skill3Title;
-        if (data.skill3Desc) this.skill3Desc = data.skill3Desc;
-        if (data.accentColor) this.accentColor = data.accentColor;
-        if (data.projects) this.projects = data.projects;
-
-        // Load new profile fields
-        if (data.avatarUrl) {
-          this.avatarUrl = data.avatarUrl;
-          if (
-            this.avatarUrl.includes('CatDV.jpeg') ||
-            this.avatarUrl.includes('C:') ||
-            this.avatarUrl.includes('unsplash.com') ||
-            this.avatarUrl.includes('unsplash')
-          ) {
-            this.avatarUrl = 'profile.jpg';
-            this.saveData();
-          }
-        }
-        if (data.email) this.email = data.email;
-        if (data.phone) this.phone = data.phone;
-        if (data.location) this.location = data.location;
-        if (data.githubUrl) this.githubUrl = data.githubUrl;
-        if (data.linkedinUrl) this.linkedinUrl = data.linkedinUrl;
-        if (data.experience !== undefined) this.experience = data.experience;
-        if (data.projectsCount !== undefined) this.projectsCount = data.projectsCount;
-        if (data.clientsCount !== undefined) this.clientsCount = data.clientsCount;
-
-        // Load dynamic rich arrays
-        if (data.workExperiences) this.workExperiences = data.workExperiences;
-        if (data.testimonials) this.testimonials = data.testimonials;
-        if (data.messages) this.messages = data.messages;
-        if (data.coreCompetencies) this.coreCompetencies = data.coreCompetencies;
-        if (data.educationList) this.educationList = data.educationList;
-      } catch (e) {
-        console.error('Failed to parse saved portfolio data from localStorage', e);
-      }
+      this.parseAndLoad(saved);
     }
     this.updateThemeColors(this.accentColor);
+
+    // 2. Query C# .NET MySQL Backend
+    this.http.get<any>(`${this.apiUrl}/portfolio`).subscribe({
+      next: (data: any) => {
+        this.isBackendActive = true;
+        
+        // Populate fields from MySQL database
+        if (data.profile) {
+          const prof = data.profile;
+          if (prof.name) this.name = prof.name;
+          if (prof.headline) this.headline = prof.headline;
+          if (prof.bio) this.bio = prof.bio;
+          if (prof.avatarUrl) this.avatarUrl = prof.avatarUrl;
+          if (prof.email) this.email = prof.email;
+          if (prof.phone) this.phone = prof.phone;
+          if (prof.location) this.location = prof.location;
+          if (prof.githubUrl) this.githubUrl = prof.githubUrl;
+          if (prof.linkedinUrl) this.linkedinUrl = prof.linkedinUrl;
+          if (prof.experience !== undefined) this.experience = prof.experience;
+          if (prof.projectsCount !== undefined) this.projectsCount = prof.projectsCount;
+          if (prof.clientsCount !== undefined) this.clientsCount = prof.clientsCount;
+          if (prof.accentColor) {
+            this.accentColor = prof.accentColor;
+            this.updateThemeColors(this.accentColor);
+          }
+        }
+        
+        if (data.coreCompetencies && Array.isArray(data.coreCompetencies)) {
+          this.coreCompetencies = data.coreCompetencies;
+        }
+        if (data.workExperiences && Array.isArray(data.workExperiences)) {
+          this.workExperiences = data.workExperiences;
+        }
+        if (data.educationList && Array.isArray(data.educationList)) {
+          this.educationList = data.educationList;
+        }
+        if (data.projects && Array.isArray(data.projects)) {
+          this.projects = data.projects;
+        }
+        if (data.testimonials && Array.isArray(data.testimonials)) {
+          this.testimonials = data.testimonials;
+        }
+
+        // Keep local storage in sync with MySQL state
+        this.saveData(true); // pass true to skip posting back to API since we just loaded from it
+      },
+      error: (err) => {
+        console.log('[INFO] C# .NET Backend is offline. Running in Local Storage Mode.', err);
+        this.isBackendActive = false;
+      }
+    });
+
+    // Also fetch inbox contact messages if backend is live
+    this.fetchContactMessages();
   }
 
-  // Save portfolio details to localStorage
-  saveData() {
+  // Parse local storage payload helper
+  private parseAndLoad(savedJson: string) {
+    try {
+      const data = JSON.parse(savedJson);
+      if (data.name) this.name = data.name;
+      if (data.headline) this.headline = data.headline;
+      if (data.bio) this.bio = data.bio;
+      if (data.accentColor) this.accentColor = data.accentColor;
+      if (data.projects) this.projects = data.projects;
+      if (data.avatarUrl) this.avatarUrl = data.avatarUrl;
+      if (data.email) this.email = data.email;
+      if (data.phone) this.phone = data.phone;
+      if (data.location) this.location = data.location;
+      if (data.githubUrl) this.githubUrl = data.githubUrl;
+      if (data.linkedinUrl) this.linkedinUrl = data.linkedinUrl;
+      if (data.experience !== undefined) this.experience = data.experience;
+      if (data.projectsCount !== undefined) this.projectsCount = data.projectsCount;
+      if (data.clientsCount !== undefined) this.clientsCount = data.clientsCount;
+      if (data.workExperiences) this.workExperiences = data.workExperiences;
+      if (data.testimonials) this.testimonials = data.testimonials;
+      if (data.messages) this.messages = data.messages;
+      if (data.coreCompetencies) this.coreCompetencies = data.coreCompetencies;
+      if (data.educationList) this.educationList = data.educationList;
+    } catch (e) {
+      console.error('Failed to parse local storage details', e);
+    }
+  }
+
+  // Fetch received visitor messages from C# server
+  private fetchContactMessages() {
+    this.http.get<any[]>(`${this.apiUrl}/contact`).subscribe({
+      next: (res) => {
+        if (Array.isArray(res)) {
+          this.messages = res;
+        }
+      },
+      error: () => {
+        // Fall back silently to local storage messages
+      }
+    });
+  }
+
+  // Save portfolio details to localStorage and MySQL backend
+  saveData(skipApiPost: boolean = false) {
     const data = {
       name: this.name,
       headline: this.headline,
@@ -193,6 +251,43 @@ export class Home {
       educationList: this.educationList
     };
     localStorage.setItem('portfolio_data', JSON.stringify(data));
+
+    // Post update payload to ASP.NET Core API if active
+    if (this.isBackendActive && !skipApiPost) {
+      const payload = {
+        profile: {
+          id: 'default',
+          name: this.name,
+          headline: this.headline,
+          bio: this.bio,
+          avatarUrl: this.avatarUrl,
+          email: this.email,
+          phone: this.phone,
+          location: this.location,
+          githubUrl: this.githubUrl,
+          linkedinUrl: this.linkedinUrl,
+          experience: this.experience,
+          projectsCount: this.projectsCount,
+          clientsCount: this.clientsCount,
+          accentColor: this.accentColor
+        },
+        coreCompetencies: this.coreCompetencies.map((c, idx) => ({ id: idx + 1, title: c.title, desc: c.desc })),
+        workExperiences: this.workExperiences.map((w, idx) => ({ id: idx + 1, company: w.company, role: w.role, duration: w.duration, summary: w.summary })),
+        educationList: this.educationList.map((e, idx) => ({ id: idx + 1, school: e.school, degree: e.degree, duration: e.duration, cgpa: e.cgpa, summary: e.summary })),
+        projects: this.projects.map((p, idx) => ({ id: idx + 1, name: p.name, category: p.category, desc: p.desc, link: p.link })),
+        testimonials: this.testimonials.map((t, idx) => ({ id: idx + 1, author: t.author, designation: t.designation, text: t.text }))
+      };
+
+      this.http.post(`${this.apiUrl}/portfolio/save`, payload).subscribe({
+        next: () => {
+          console.log('MySQL database synchronized successfully.');
+        },
+        error: (err) => {
+          console.error('Failed to sync MySQL database', err);
+          this.isBackendActive = false; // set to offline if connection dropped
+        }
+      });
+    }
   }
 
   // Update root CSS theme variables dynamically
@@ -349,17 +444,53 @@ export class Home {
       body: this.msgBody,
       date: new Date().toLocaleString()
     };
-    this.messages.push(newMessage);
-    this.saveData();
-    alert('Thank you! Your message has been sent successfully. It is logged in your Inbox customizer panel on the right!');
+    
+    if (this.isBackendActive) {
+      // Post to MySQL server
+      this.http.post<any>(`${this.apiUrl}/contact`, newMessage).subscribe({
+        next: (savedMsg) => {
+          this.messages.push(savedMsg);
+          this.saveData(true); // update local storage
+          alert('Thank you! Your message has been saved in the MySQL database successfully.');
+        },
+        error: (err) => {
+          console.error('Failed to post message to MySQL server', err);
+          // Fall back to local array
+          this.messages.push(newMessage);
+          this.saveData();
+          alert('Thank you! Your message has been saved locally.');
+        }
+      });
+    } else {
+      // Local storage fallback
+      this.messages.push(newMessage);
+      this.saveData();
+      alert('Thank you! Your message has been sent successfully. It is logged in your Inbox customizer panel on the right!');
+    }
+
     this.msgName = '';
     this.msgEmail = '';
     this.msgBody = '';
   }
 
   removeMessage(index: number) {
-    this.messages.splice(index, 1);
-    this.saveData();
+    const msg = this.messages[index];
+    if (this.isBackendActive && msg && msg.id !== undefined) {
+      this.http.delete(`${this.apiUrl}/contact/${msg.id}`).subscribe({
+        next: () => {
+          this.messages.splice(index, 1);
+          this.saveData(true);
+        },
+        error: (err) => {
+          console.error('Failed to delete message from MySQL', err);
+          this.messages.splice(index, 1);
+          this.saveData();
+        }
+      });
+    } else {
+      this.messages.splice(index, 1);
+      this.saveData();
+    }
   }
 
   // Dynamic Core Competencies Card management
